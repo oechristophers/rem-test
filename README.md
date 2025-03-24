@@ -76,7 +76,7 @@ https://app.wewantwaste.co.uk/api/skips/by-location?postcode=NR32&area=Lowestoft
  ```
 
  ## 🎮 Live Demo
-Sandbox Link (Add your deployed link here once ready.)
+[Rem Test Link](https://rem-test.vercel.app/)
 
 ## 📝 Submission
 - This project was completed as part of a front-end coding challenge for We Want Waste. The final submission was made via the provided form.
