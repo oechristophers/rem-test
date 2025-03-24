@@ -2,7 +2,6 @@ import { useGetSkipsByLocationQuery } from "@/redux/app/bookSkip/skipApi";
 import { addSkip } from "@/redux/app/bookSkip/skipSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/app/hooks";
 import React, { useState, useEffect } from "react";
-import { toast } from "sonner";
 import Drawer from "@/components/skipComponents/Drawer";
 import SpinLoader from "@/components/Loader";
 import { Carousel } from "@/components/Carousel";
@@ -79,7 +78,6 @@ export const Home = () => {
       {/* Drawer for displaying selected skip information */}
       <Drawer
         isOpen={isDrawerOpen}
-        skipData={selectedSkipData}
         onClose={() => setIsDrawerOpen(false)} // Close the drawer
         onOpen={handleDrawerOpen}
       />

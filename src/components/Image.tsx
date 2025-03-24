@@ -26,7 +26,7 @@ const Image: React.FC<ImageProps> = ({
         width={width}
         height={height}
         loading={lazy ? "lazy" : "eager"}
-        className={`w-full h-full object-cover transition-transform duration-300 ease-in-out hover:scale-110 ${className}`}
+        className={`w-full h-full object-cover transition-transform duration-300 ease-in-out sm:hover:scale-110 ${className}`}
         {...props}
       />
     );

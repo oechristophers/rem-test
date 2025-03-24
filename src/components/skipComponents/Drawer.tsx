@@ -1,30 +1,31 @@
 import React, { useEffect } from "react";
 import { ArrowRight, ChevronUp } from "lucide-react";
 import { Button } from "../ui/button";
+import { useAppDispatch, useAppSelector } from "@/redux/app/hooks";
+import { removeSkip } from "@/redux/app/bookSkip/skipSlice";
+import { RootState } from "@/redux/app/store";
 
 interface DrawerProps {
   isOpen: boolean;
-  skipData: {
-    size: string;
-    hire_period_days: number;
-    price_before_vat: number;
-  } | null;
   onClose: () => void;
   onOpen: () => void;
 }
 
-const Drawer: React.FC<DrawerProps> = ({
-  isOpen,
-  skipData,
-  onClose,
-  onOpen,
-}) => {
+const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, onOpen }) => {
+  const dispatch = useAppDispatch();
+  const skipData = useAppSelector((state: RootState) => state.skips.selectedSkip);
+
   useEffect(() => {
     if (isOpen) {
-      const timer = setTimeout(onClose, 5000);
+      const timer = setTimeout(onClose, 3000);
       return () => clearTimeout(timer);
     }
   }, [isOpen, onClose]);
+
+  const handleClick = () => {
+    dispatch(removeSkip());
+    onClose();
+  };
 
   return (
     <div className="relative">
@@ -35,21 +36,24 @@ const Drawer: React.FC<DrawerProps> = ({
         }`}
         style={{ maxHeight: "20rem" }}
       >
-        <div>
-          <h3 className="text-2xl font-bold">{skipData?.size} Yard Skip</h3>
-          <p className="text-lg">
-            Hire Period: {skipData?.hire_period_days} days
-          </p>
-          <p className="text-lg">Price: £{skipData?.price_before_vat}</p>
+        {skipData ? (
+          <div>
+            <h3 className="text-2xl font-bold">{skipData.size} Yard Skip</h3>
+            <p className="text-lg">Hire Period: {skipData.hire_period_days} days</p>
+            <p className="text-lg">Price: £{skipData.price_before_vat}</p>
 
-          <Button
-            variant="default"
-            className="mt-4 h-12 w-fit bg-red-500 text-white rounded-md"
-            onClick={onClose}
-          >
-            Remove Selection
-          </Button>
-        </div>
+            <Button
+              variant="default"
+              className="mt-4 h-12 w-fit bg-red-500 text-white rounded-md"
+              onClick={handleClick}
+            >
+              Remove Selection
+            </Button>
+          </div>
+        ) : (
+          <p className="text-lg text-gray-400">No selection made.</p>
+        )}
+
         <Button className="p-2 h-12 mt-auto px-4">
           Continue <ArrowRight />
         </Button>
@@ -61,12 +65,11 @@ const Drawer: React.FC<DrawerProps> = ({
           className="fixed bottom-4 left-4 z-50 cursor-pointer animate-jump"
           onClick={onOpen}
         >
-          <ChevronUp className="w-8 sm:w-12 h-12 text-gray-600 drop-shadow-md" />
+          <ChevronUp className="w-8 sm:w-12 h-12 text-gray-500 drop-shadow-md" />
         </div>
       )}
-
-      {/* Animation */}
-      <style>
+        {/* Animation */}
+        <style>
         {`
           @keyframes jump {
             0%, 100% { transform: translateY(0); }
@@ -74,11 +77,12 @@ const Drawer: React.FC<DrawerProps> = ({
           }
           .animate-jump {
             animation: jump 0.6s ease-in-out infinite;
-            animation-delay: 5s;
+            animation-delay: 1s;
           }
         `}
       </style>
     </div>
+    
   );
 };
 
